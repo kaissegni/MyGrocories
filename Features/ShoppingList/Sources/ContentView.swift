@@ -1,20 +1,27 @@
 import SwiftUI
 import CommonUI
+import Common
 
 public struct ContentView: View {
+
     public init() {}
-    @State var items: [String] = []
+
+    @State var items: [ShoppingListItem] = []
 
     public var body: some View {
         NavigationView {
             VStack(alignment: .leading) {
-                Text("My Lists")
+                Text("Your grocories")
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .padding([.top, .leading])
                 
                 List(items, id: \.self) { item in
-                    Text(item)
+                    let isEmptyList = item.items?.isEmpty ?? true
+                    Text(item.name)
+                    Text(item.details)
+                        .font(isEmptyList ? .caption : .caption2)
+                        .foregroundStyle(Color(isEmptyList ? .gray : .black))
                 }
                 .background(Color.white)
                 .listStyle(InsetGroupedListStyle())
@@ -22,10 +29,10 @@ public struct ContentView: View {
                 VStack(alignment: .leading) {
                     if items.isEmpty {
                         VStack(alignment: .leading, spacing: Margin.large) {
-                            Text("Welcome to buy me a pie")
+                            Text("Welcome to My Groceries")
                                 .font(.headline)
                                 .fontWeight(.bold)
-                            Text("Tap the '"+"' icon to create your first list ")
+                            Text("Tap the \("+") icon to create your first list")
                                 .font(.subheadline)
                         }
                         .padding()
@@ -52,7 +59,7 @@ public struct ContentView: View {
     }
     
     private func addItem() {
-        items.append("Item \(items.count + 1)")
+        items.append(ShoppingListItem(name: "Shopping List \(items.count + 1)"))
     }
 }
 

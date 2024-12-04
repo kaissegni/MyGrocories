@@ -1,7 +1,7 @@
 import ProjectDescription
 
 let project = Project(
-    name: "ShoppingListApp",
+    name: "MyGrocoriesApp",
     targets: [
         .target(
             name: "ShoppingList",
@@ -13,28 +13,12 @@ let project = Project(
                     "UILaunchStoryboardName": "LaunchScreen.storyboard",
                 ]
             ),
-            sources: ["ShoppingList/Sources/**"],
-            resources: ["ShoppingList/Resources/**"],
+            sources: ["Features/ShoppingList/Sources/**"],
+            resources: ["Features/ShoppingList/Resources/**"],
             dependencies: [
                 .target(name: "ShoppingListDetails"),
                 .target(name: "CommonUI"),
-                .external(name: "ComposableArchitecture")
-            ]
-        ),
-        .target(
-            name: "ShoppingListDetails",
-            destinations: .iOS,
-            product: .framework,
-            bundleId: "com.shoppenhavn.ShoppingListDetails",
-            infoPlist: .extendingDefault(
-                with: [
-                    "UILaunchStoryboardName": "LaunchScreen.storyboard",
-                ]
-            ),
-            sources: ["ShoppingListDetails/Sources/**"],
-            resources: ["ShoppingListDetails/Resources/**"],
-            dependencies: [
-                .target(name: "CommonUI"),
+                .target(name: "Common"),
                 .external(name: "ComposableArchitecture")
             ]
         ),
@@ -43,14 +27,42 @@ let project = Project(
             destinations: .iOS,
             product: .framework,
             bundleId: "com.shoppenhavn.CommonUI",
-            infoPlist: .extendingDefault(
-                with: [
-                    "UILaunchStoryboardName": "LaunchScreen.storyboard",
-                ]
-            ),
-            sources: ["CommonUI/Sources/**"],
-            resources: ["CommonUI/Resources/**"],
+            infoPlist: .default,
+            sources: ["Features/CommonUI/Sources/**"],
+            resources: ["Features/CommonUI/Resources/**"],
             dependencies: []
+        ),
+        .target(
+            name: "Common",
+            destinations: .iOS,
+            product: .framework,
+            bundleId: "com.shoppenhavn.Common",
+            infoPlist: .default,
+            sources: ["Features/Common/Sources/**"],
+            resources: ["Features/Common/Resources/**"],
+            dependencies: []
+        ),
+        .target(
+            name: "Navigation",
+            destinations: .iOS,
+            product: .framework,
+            bundleId: "com.shoppenhavn.Navigation",
+            infoPlist: .default,
+            sources: ["Features/Navigation/Sources/**"],
+            dependencies: []
+        ),
+        .target(
+            name: "ShoppingListDetails",
+            destinations: .iOS,
+            product: .framework,
+            bundleId: "com.shoppenhavn.ShoppingListDetails",
+            infoPlist: .default,
+            sources: ["Features/ShoppingListDetails/Sources/**"],
+            resources: ["Features/ShoppingListDetails/Resources/**"],
+            dependencies: [
+                .target(name: "CommonUI"),
+                .external(name: "ComposableArchitecture")
+            ]
         ),
         .target(
             name: "ShoppingListTests",
@@ -58,8 +70,8 @@ let project = Project(
             product: .unitTests,
             bundleId: "com.shoppenhavn.ShoppingListTests",
             infoPlist: .default,
-            sources: ["ShoppingList/Tests/**"],
-            resources: ["ShoppingList/Resources/**"],
+            sources: ["Features/ShoppingList/Tests/**"],
+            resources: ["Features/ShoppingList/Resources/**"],
             dependencies: []
         ),
     ]
