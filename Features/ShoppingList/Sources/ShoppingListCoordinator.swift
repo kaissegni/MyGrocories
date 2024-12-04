@@ -17,7 +17,7 @@ class ShoppingListCoordinator: Navigator {
     }
     
     override func start() {
-        let shoppingListView = ShoppingListView(coordinator: self)
+        let shoppingListView = ShoppingListView(self)
         let hostingController = BaseHostingViewController(navigator: self, rootView: shoppingListView)
         navigationController?.pushViewController(hostingController, animated: false)
     }

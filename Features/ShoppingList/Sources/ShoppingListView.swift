@@ -5,12 +5,12 @@ import Navigation
 
 public struct ShoppingListView: View {
 
-    init(coordinator: ShoppingListCoordinator) {
+    init(_ coordinator: ShoppingListCoordinator? = nil) {
         self.coordinator = coordinator
     }
 
     @State var items: [ShoppingListItem] = []
-    var coordinator: ShoppingListCoordinator?
+    weak var coordinator: ShoppingListCoordinator?
 
     public var body: some View {
         NavigationView {
@@ -22,10 +22,15 @@ public struct ShoppingListView: View {
                 
                 List(items, id: \.self) { item in
                     let isEmptyList = item.items?.isEmpty ?? true
-                    Text(item.name)
-                    Text(item.details)
-                        .font(isEmptyList ? .caption : .caption2)
-                        .foregroundStyle(Color(isEmptyList ? .gray : .black))
+                    VStack(alignment: .leading) {
+                        Text(item.name)
+                        Text(item.details)
+                            .font(isEmptyList ? .caption : .caption2)
+                            .foregroundStyle(Color(isEmptyList ? .gray : .black))
+                    }
+                    .onTapGesture {
+                        coordinator?.coordinateToShoppingListDetails()
+                    }
                 }
                 .background(Color.white)
                 .listStyle(InsetGroupedListStyle())
@@ -76,6 +81,6 @@ extension ShoppingListView {
 
 struct ShoppingListView_Previews: PreviewProvider {
     static var previews: some View {
-        ShoppingListView(coordinator: ShoppingListCoordinator(navigationController: UINavigationController()))
+        ShoppingListView()
     }
 }
