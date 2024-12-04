@@ -19,6 +19,7 @@ let project = Project(
                 .target(name: "ShoppingListDetails"),
                 .target(name: "CommonUI"),
                 .target(name: "Common"),
+                .target(name: "Navigation"),
                 .external(name: "ComposableArchitecture")
             ]
         ),
@@ -39,7 +40,6 @@ let project = Project(
             bundleId: "com.shoppenhavn.Common",
             infoPlist: .default,
             sources: ["Features/Common/Sources/**"],
-            resources: ["Features/Common/Resources/**"],
             dependencies: []
         ),
         .target(
@@ -58,9 +58,10 @@ let project = Project(
             bundleId: "com.shoppenhavn.ShoppingListDetails",
             infoPlist: .default,
             sources: ["Features/ShoppingListDetails/Sources/**"],
-            resources: ["Features/ShoppingListDetails/Resources/**"],
             dependencies: [
                 .target(name: "CommonUI"),
+                .target(name: "Common"),
+                .target(name: "Navigation"),
                 .external(name: "ComposableArchitecture")
             ]
         ),

@@ -1,12 +1,16 @@
 import SwiftUI
 import CommonUI
 import Common
+import Navigation
 
-public struct ContentView: View {
+public struct ShoppingListView: View {
 
-    public init() {}
+    init(coordinator: ShoppingListCoordinator) {
+        self.coordinator = coordinator
+    }
 
     @State var items: [ShoppingListItem] = []
+    var coordinator: ShoppingListCoordinator?
 
     public var body: some View {
         NavigationView {
@@ -60,17 +64,18 @@ public struct ContentView: View {
     
     private func addItem() {
         items.append(ShoppingListItem(name: "Shopping List \(items.count + 1)"))
+        coordinator?.coordinateToShoppingListDetails()
     }
 }
 
-extension ContentView {
+extension ShoppingListView {
     enum Constants {
         static let addButtonSize: CGFloat = 60.0
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct ShoppingListView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ShoppingListView(coordinator: ShoppingListCoordinator(navigationController: UINavigationController()))
     }
 }
